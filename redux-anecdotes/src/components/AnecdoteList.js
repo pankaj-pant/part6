@@ -4,7 +4,8 @@ import { voteForAnecdote } from '../reducers/anecdoteReducer'
 import { showNotification, hideNotification } from '../reducers/notificationReducer'
 
 const AnecdoteList = ({ store }) => {
-    const anecdotes = store.getState().anecdotes
+    const { anecdotes, search } = store.getState()
+    console.log(anecdotes, search)
 
     anecdotes.sort(function(a,b)
           {return (a.votes-b.votes)*-1}
@@ -18,9 +19,18 @@ const AnecdoteList = ({ store }) => {
           }, 5000)
     }
 
+    const anecdotesToShow = () => {
+        if (search === '') {
+            return anecdotes
+          } else {
+              return anecdotes.filter(a => a.content.toString().toLowerCase().includes(search.toString().toLowerCase()) === true)
+          }
+ 
+    }
+
     return (
         <ul>
-            {anecdotes.map(anecdote =>
+            {anecdotesToShow().map(anecdote =>
                 <div key={anecdote.id}>
                 <div>
                     {anecdote.content}
