@@ -20,19 +20,10 @@ const AnecdoteList = (props) => {
           }, 5000)
     }
 
-    const anecdotesToShow = () => {
-        if (props.search === '') {
-            return props.anecdotes
-          } else {
-              return props.anecdotes.filter(a => a.content.toString().toLowerCase().includes(props.search.toString().toLowerCase()) === true)
-          }
- 
-    }
-
     return (
         <div>
             <SearchFilter />
-            {anecdotesToShow().map(anecdote =>
+            {props.visibleAnecdotes.map(anecdote =>
                 <div key={anecdote.id}>
                 <div>
                     {anecdote.content}
@@ -49,10 +40,19 @@ const AnecdoteList = (props) => {
 
 //export default AnecdoteList
 
+const anecdotesToShow = ({ anecdotes, search }) => {
+    if (search === '') {
+        return anecdotes
+      } else {
+          return anecdotes.filter(a => a.content.toString().toLowerCase().includes(search.toString().toLowerCase()) === true)
+      }
+
+}
+
 const mapStateToProps = (state) => {
     return {
-      anecdotes: state.anecdotes,
-      search: state.search
+      visibleAnecdotes: anecdotesToShow(state),
+      anecdotes: state.anecdotes
     }
   }
 
