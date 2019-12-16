@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { voteForAnecdote } from '../reducers/anecdoteReducer'
-import { showNotification, hideNotification } from '../reducers/notificationReducer'
+import { showNotification } from '../reducers/notificationReducer'
 import SearchFilter from './SearchFilter'
 
 const AnecdoteList = (props) => {
@@ -14,10 +14,12 @@ const AnecdoteList = (props) => {
 
     const handleClick = (id, content) => {
         props.voteForAnecdote(id)
-        props.showNotification(`you voted '${content}'`)
+        /* props.showNotification(`you voted '${content}'`)
         setTimeout(() => {
             props.hideNotification()
-          }, 5000)
+          }, 5000) */
+
+        props.showNotification(`you voted '${content}'`, 5000)  
     }
 
     return (
@@ -58,8 +60,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
     voteForAnecdote,
-    showNotification,
-    hideNotification
+    showNotification
 }
   
 
